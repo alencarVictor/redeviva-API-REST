@@ -1,4 +1,4 @@
-package br.com.fiap.resource;
+package br.com.fiap.redeviva.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
