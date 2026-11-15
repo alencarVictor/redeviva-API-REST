@@ -17,8 +17,7 @@ public class Oferta {
 
     //construtores
 
-    public Oferta() {
-    }
+    public Oferta() {}
 
     public Oferta(Long cdOferta, Long cdLoja, Long cdProduto, Integer qtDisponivel, BigDecimal vlPrecoSistema, BigDecimal vlPrecoRede, LocalDate dtValidade, String stOferta) {
         this.cdOferta = cdOferta;

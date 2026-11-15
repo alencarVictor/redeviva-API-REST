@@ -12,8 +12,7 @@ public class Loja {
 
     //construtores
 
-    public Loja() {
-    }
+    public Loja() {}
 
     public Loja(Long cdLoja, String nmLoja, String dsEndereco, Double nrLatitude, Double nrLongitude, String dsEmail) {
         this.cdLoja = cdLoja;
