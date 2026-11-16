@@ -9,11 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
-@RestController
-@RequestMapping("/lojas")
+@RestController //dizendo para o Spring que essa classe funcionara como Controller (MVC)
+@RequestMapping("/lojas") //definindo endpoint
 public class LojaController {
 
     private final LojaBO lojaBO;
@@ -25,14 +24,14 @@ public class LojaController {
     }
 
     @GetMapping //requisicao get
-    public ResponseEntity<List<LojaDTO>> findAll() throws SQLException {
+    public ResponseEntity<List<LojaDTO>> findAll(){
         List<LojaDTO> lojas = lojaBO.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(lojas);
         //configurando o retorno com status ok 200
     }
 
     @GetMapping("/{cdLoja}")
-    public ResponseEntity<?> findByCodigo(@PathVariable Long cdLoja) throws SQLException {
+    public ResponseEntity<?> findByCodigo(@PathVariable Long cdLoja){
         LojaDTO loja = lojaBO.findByCodigo(cdLoja);
         return ResponseEntity.status(HttpStatus.OK).body(loja);
         //configurando o retorno com status ok 200
@@ -40,7 +39,7 @@ public class LojaController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody @Valid LojaDTO loja) throws SQLException {
+    public ResponseEntity<?> save(@RequestBody @Valid LojaDTO loja){
         LojaDTO resultado = lojaBO.save(loja);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header("Location", "/lojas/" + resultado.getCdLoja())
@@ -49,7 +48,7 @@ public class LojaController {
     }
 
     @DeleteMapping("/{cdLoja}")
-    public ResponseEntity<Void> delete(@PathVariable Long cdLoja) throws SQLException {
+    public ResponseEntity<Void> delete(@PathVariable Long cdLoja){
         lojaBO.delete(cdLoja);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         //configurando o retorno com status no content 204
@@ -57,7 +56,7 @@ public class LojaController {
 
     @PutMapping("/{cdLoja}")
     public ResponseEntity<?> update(@PathVariable Long cdLoja,
-                                    @RequestBody @Valid LojaDTO loja) throws SQLException {
+                                    @RequestBody @Valid LojaDTO loja){
         LojaDTO resultado = lojaBO.update(cdLoja, loja);
         return ResponseEntity.status(HttpStatus.OK).body(resultado);
         //configurando o retorno com status ok 200
@@ -66,7 +65,7 @@ public class LojaController {
     //rotas aninhadas do relacionamento 1:N (loja -> produtos)
 
     @GetMapping("/{cdLoja}/produtos")
-    public ResponseEntity<List<ProdutoDTO>> findProdutos(@PathVariable Long cdLoja) throws SQLException {
+    public ResponseEntity<List<ProdutoDTO>> findProdutos(@PathVariable Long cdLoja){
         List<ProdutoDTO> produtos = produtoBO.findByLoja(cdLoja);
         return ResponseEntity.status(HttpStatus.OK).body(produtos);
         //configurando o retorno com status ok 200
@@ -74,7 +73,7 @@ public class LojaController {
 
     @PostMapping("/{cdLoja}/produtos")
     public ResponseEntity<?> saveProduto(@PathVariable Long cdLoja,
-                                         @RequestBody @Valid ProdutoDTO produto) throws SQLException {
+                                         @RequestBody @Valid ProdutoDTO produto){
         ProdutoDTO resultado = produtoBO.save(cdLoja, produto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header("Location", "/produtos/" + resultado.getCdProduto())

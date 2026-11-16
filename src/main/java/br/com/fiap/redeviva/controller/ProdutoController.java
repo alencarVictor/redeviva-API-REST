@@ -7,11 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
-@RestController
-@RequestMapping("/produtos")
+@RestController //dizendo para o Spring que essa classe funcionara como Controller (MVC)
+@RequestMapping("/produtos") //definindo endpoint
 public class ProdutoController {
 
     private final ProdutoBO produtoBO;
@@ -21,21 +20,21 @@ public class ProdutoController {
     }
 
     @GetMapping //requisicao get
-    public ResponseEntity<List<ProdutoDTO>> findAll() throws SQLException {
+    public ResponseEntity<List<ProdutoDTO>> findAll(){
         List<ProdutoDTO> produtos = produtoBO.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(produtos);
         //configurando o retorno com status ok 200
     }
 
     @GetMapping("/{cdProduto}")
-    public ResponseEntity<?> findByCodigo(@PathVariable Long cdProduto) throws SQLException {
+    public ResponseEntity<?> findByCodigo(@PathVariable Long cdProduto){
         ProdutoDTO produto = produtoBO.findByCodigo(cdProduto);
         return ResponseEntity.status(HttpStatus.OK).body(produto);
         //configurando o retorno com status ok 200
     }
 
     @DeleteMapping("/{cdProduto}")
-    public ResponseEntity<Void> delete(@PathVariable Long cdProduto) throws SQLException {
+    public ResponseEntity<Void> delete(@PathVariable Long cdProduto){
         produtoBO.delete(cdProduto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         //configurando o retorno com status no content 204
@@ -43,7 +42,7 @@ public class ProdutoController {
 
     @PutMapping("/{cdProduto}")
     public ResponseEntity<?> update(@PathVariable Long cdProduto,
-                                    @RequestBody @Valid ProdutoDTO produto) throws SQLException {
+                                    @RequestBody @Valid ProdutoDTO produto){
         ProdutoDTO resultado = produtoBO.update(cdProduto, produto);
         return ResponseEntity.status(HttpStatus.OK).body(resultado);
         //configurando o retorno com status ok 200
