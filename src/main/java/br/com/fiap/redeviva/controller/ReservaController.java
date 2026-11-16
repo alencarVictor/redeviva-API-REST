@@ -1,7 +1,9 @@
 package br.com.fiap.redeviva.controller;
 
+import br.com.fiap.redeviva.bo.ConfirmacaoRetiradaBO;
 import br.com.fiap.redeviva.bo.ItemReservaBO;
 import br.com.fiap.redeviva.bo.ReservaBO;
+import br.com.fiap.redeviva.dto.ConfirmacaoRetiradaDTO;
 import br.com.fiap.redeviva.dto.ItemReservaDTO;
 import br.com.fiap.redeviva.dto.ReservaDTO;
 import jakarta.validation.Valid;
@@ -17,10 +19,13 @@ public class ReservaController {
 
     private final ReservaBO reservaBO;
     private final ItemReservaBO itemReservaBO;
+    private final ConfirmacaoRetiradaBO confirmacaoRetiradaBO;
 
-    public ReservaController(ReservaBO reservaBO, ItemReservaBO itemReservaBO) {
+    public ReservaController(ReservaBO reservaBO, ItemReservaBO itemReservaBO,
+                             ConfirmacaoRetiradaBO confirmacaoRetiradaBO) {
         this.reservaBO = reservaBO;
         this.itemReservaBO = itemReservaBO;
+        this.confirmacaoRetiradaBO = confirmacaoRetiradaBO;
     }
 
     @GetMapping //requisicao get
@@ -48,6 +53,15 @@ public class ReservaController {
     public ResponseEntity<?> update(@PathVariable Long cdReserva,
                                     @RequestBody @Valid ReservaDTO reserva){
         ReservaDTO resultado = reservaBO.update(cdReserva, reserva);
+        return ResponseEntity.status(HttpStatus.OK).body(resultado);
+        //configurando o retorno com status ok 200
+    }
+
+    //retirada da reserva no balcao (grava a confirmacao e passa a reserva para RETIRADA)
+    @PutMapping("/{cdReserva}/retirada")
+    public ResponseEntity<?> retirada(@PathVariable Long cdReserva,
+                                      @RequestBody @Valid ConfirmacaoRetiradaDTO confirmacao){
+        ConfirmacaoRetiradaDTO resultado = confirmacaoRetiradaBO.registrarRetirada(cdReserva, confirmacao);
         return ResponseEntity.status(HttpStatus.OK).body(resultado);
         //configurando o retorno com status ok 200
     }
