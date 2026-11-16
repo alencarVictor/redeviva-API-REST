@@ -1,8 +1,10 @@
 package br.com.fiap.redeviva.controller;
 
 import br.com.fiap.redeviva.bo.LojaBO;
+import br.com.fiap.redeviva.bo.OfertaBO;
 import br.com.fiap.redeviva.bo.ProdutoBO;
 import br.com.fiap.redeviva.dto.LojaDTO;
+import br.com.fiap.redeviva.dto.OfertaDTO;
 import br.com.fiap.redeviva.dto.ProdutoDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -17,10 +19,12 @@ public class LojaController {
 
     private final LojaBO lojaBO;
     private final ProdutoBO produtoBO;
+    private final OfertaBO ofertaBO;
 
-    public LojaController(LojaBO lojaBO, ProdutoBO produtoBO) {
+    public LojaController(LojaBO lojaBO, ProdutoBO produtoBO, OfertaBO ofertaBO) {
         this.lojaBO = lojaBO;
         this.produtoBO = produtoBO;
+        this.ofertaBO = ofertaBO;
     }
 
     @GetMapping //requisicao get
@@ -48,10 +52,10 @@ public class LojaController {
     }
 
     @DeleteMapping("/{cdLoja}")
-    public ResponseEntity<Void> delete(@PathVariable Long cdLoja){
-        lojaBO.delete(cdLoja);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        //configurando o retorno com status no content 204
+    public ResponseEntity<String> delete(@PathVariable Long cdLoja){
+        lojaBO.delete(cdLoja); //se nao achar, o BO lanca a exception e o handler devolve o 404
+        return ResponseEntity.status(HttpStatus.OK).body("Loja deletada com sucesso!");
+        //configurando o retorno com status ok 200
     }
 
     @PutMapping("/{cdLoja}")
@@ -77,6 +81,25 @@ public class LojaController {
         ProdutoDTO resultado = produtoBO.save(cdLoja, produto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header("Location", "/produtos/" + resultado.getCdProduto())
+                .body(resultado);
+        //configurando o retorno com status created 201 e o header Location
+    }
+
+    //rotas aninhadas do relacionamento 1:N (loja -> ofertas)
+
+    @GetMapping("/{cdLoja}/ofertas")
+    public ResponseEntity<List<OfertaDTO>> findOfertas(@PathVariable Long cdLoja){
+        List<OfertaDTO> ofertas = ofertaBO.findByLoja(cdLoja);
+        return ResponseEntity.status(HttpStatus.OK).body(ofertas);
+        //configurando o retorno com status ok 200
+    }
+
+    @PostMapping("/{cdLoja}/ofertas")
+    public ResponseEntity<?> saveOferta(@PathVariable Long cdLoja,
+                                        @RequestBody @Valid OfertaDTO oferta){
+        OfertaDTO resultado = ofertaBO.save(cdLoja, oferta);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .header("Location", "/ofertas/" + resultado.getCdOferta())
                 .body(resultado);
         //configurando o retorno com status created 201 e o header Location
     }
