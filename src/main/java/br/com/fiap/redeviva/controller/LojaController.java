@@ -52,10 +52,10 @@ public class LojaController {
     }
 
     @DeleteMapping("/{cdLoja}")
-    public ResponseEntity<String> delete(@PathVariable Long cdLoja){
+    public ResponseEntity<Void> delete(@PathVariable Long cdLoja){
         lojaBO.delete(cdLoja); //se nao achar, o BO lanca a exception e o handler devolve o 404
-        return ResponseEntity.status(HttpStatus.OK).body("Loja deletada com sucesso!");
-        //configurando o retorno com status ok 200
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        //configurando o retorno com status no content 204
     }
 
     @PutMapping("/{cdLoja}")

@@ -1,7 +1,9 @@
 package br.com.fiap.redeviva.controller;
 
 import br.com.fiap.redeviva.bo.ClienteBO;
+import br.com.fiap.redeviva.bo.ReservaBO;
 import br.com.fiap.redeviva.dto.ClienteDTO;
+import br.com.fiap.redeviva.dto.ReservaDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +16,11 @@ import java.util.List;
 public class ClienteController {
 
     private final ClienteBO clienteBO;
+    private final ReservaBO reservaBO;
 
-    public ClienteController(ClienteBO clienteBO) {
+    public ClienteController(ClienteBO clienteBO, ReservaBO reservaBO) {
         this.clienteBO = clienteBO;
+        this.reservaBO = reservaBO;
     }
 
     @GetMapping //requisicao get
@@ -43,10 +47,10 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{cdCliente}")
-    public ResponseEntity<String> delete(@PathVariable Long cdCliente){
+    public ResponseEntity<Void> delete(@PathVariable Long cdCliente){
         clienteBO.delete(cdCliente); //se nao achar, o BO lanca a exception e o handler devolve o 404
-        return ResponseEntity.status(HttpStatus.OK).body("Cliente deletado com sucesso!");
-        //configurando o retorno com status ok 200
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        //configurando o retorno com status no content 204
     }
 
     @PutMapping("/{cdCliente}")
@@ -64,5 +68,24 @@ public class ClienteController {
         ClienteDTO resultado = clienteBO.alterarValidacao(cdCliente, status);
         return ResponseEntity.status(HttpStatus.OK).body(resultado);
         //configurando o retorno com status ok 200
+    }
+
+    //rotas aninhadas do relacionamento 1:N (cliente -> reservas)
+
+    @GetMapping("/{cdCliente}/reservas")
+    public ResponseEntity<List<ReservaDTO>> findReservas(@PathVariable Long cdCliente){
+        List<ReservaDTO> reservas = reservaBO.findByCliente(cdCliente);
+        return ResponseEntity.status(HttpStatus.OK).body(reservas);
+        //configurando o retorno com status ok 200
+    }
+
+    @PostMapping("/{cdCliente}/reservas")
+    public ResponseEntity<?> saveReserva(@PathVariable Long cdCliente,
+                                         @RequestBody @Valid ReservaDTO reserva){
+        ReservaDTO resultado = reservaBO.save(cdCliente, reserva);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .header("Location", "/reservas/" + resultado.getCdReserva())
+                .body(resultado);
+        //configurando o retorno com status created 201 e o header Location
     }
 }
