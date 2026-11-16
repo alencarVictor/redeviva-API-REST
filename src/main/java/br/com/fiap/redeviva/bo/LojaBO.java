@@ -7,7 +7,6 @@ import br.com.fiap.redeviva.model.Loja;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class LojaBO {
         this.lojaDAO = lojaDAO;
     }
 
-    public List<LojaDTO> findAll() throws SQLException {
+    public List<LojaDTO> findAll() {
         List<LojaDTO> lojas = new ArrayList<>();
         for (Loja loja : lojaDAO.findAll()) {
             lojas.add(modelMapper.map(loja, LojaDTO.class)); //model -> dto
@@ -29,7 +28,7 @@ public class LojaBO {
         return lojas;
     }
 
-    public LojaDTO findByCodigo(Long cdLoja) throws SQLException {
+    public LojaDTO findByCodigo(Long cdLoja) {
         Loja loja = lojaDAO.findByCodigo(cdLoja);
         if (loja == null) {
             throw new RecursoNaoEncontradoException("Loja " + cdLoja + " não encontrada");
@@ -37,13 +36,13 @@ public class LojaBO {
         return modelMapper.map(loja, LojaDTO.class);
     }
 
-    public LojaDTO save(LojaDTO dto) throws SQLException {
+    public LojaDTO save(LojaDTO dto) {
         Loja loja = modelMapper.map(dto, Loja.class); //dto -> model
         loja.setCdLoja(null); //o id vem da sequence, ignora o que chegar no JSON
         return modelMapper.map(lojaDAO.save(loja), LojaDTO.class);
     }
 
-    public LojaDTO update(Long cdLoja, LojaDTO dto) throws SQLException {
+    public LojaDTO update(Long cdLoja, LojaDTO dto) {
         Loja loja = modelMapper.map(dto, Loja.class);
         loja.setCdLoja(cdLoja); //o id vem da rota
         if (lojaDAO.update(loja) == null) {
@@ -52,7 +51,7 @@ public class LojaBO {
         return modelMapper.map(loja, LojaDTO.class);
     }
 
-    public void delete(Long cdLoja) throws SQLException {
+    public void delete(Long cdLoja) {
         if (!lojaDAO.delete(cdLoja)) {
             throw new RecursoNaoEncontradoException("Loja " + cdLoja + " não encontrada");
         }

@@ -8,7 +8,6 @@ import br.com.fiap.redeviva.model.Produto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class ProdutoBO {
         this.lojaDAO = lojaDAO;
     }
 
-    public List<ProdutoDTO> findAll() throws SQLException {
+    public List<ProdutoDTO> findAll() {
         List<ProdutoDTO> produtos = new ArrayList<>();
         for (Produto produto : produtoDAO.findAll()) {
             produtos.add(modelMapper.map(produto, ProdutoDTO.class)); //model -> dto
@@ -32,7 +31,7 @@ public class ProdutoBO {
         return produtos;
     }
 
-    public List<ProdutoDTO> findByLoja(Long cdLoja) throws SQLException {
+    public List<ProdutoDTO> findByLoja(Long cdLoja) {
         confirmarLoja(cdLoja);
         List<ProdutoDTO> produtos = new ArrayList<>();
         for (Produto produto : produtoDAO.findByLoja(cdLoja)) {
@@ -41,7 +40,7 @@ public class ProdutoBO {
         return produtos;
     }
 
-    public ProdutoDTO findByCodigo(Long cdProduto) throws SQLException {
+    public ProdutoDTO findByCodigo(Long cdProduto) {
         Produto produto = produtoDAO.findByCodigo(cdProduto);
         if (produto == null) {
             throw new RecursoNaoEncontradoException("Produto " + cdProduto + " não encontrado");
@@ -49,7 +48,7 @@ public class ProdutoBO {
         return modelMapper.map(produto, ProdutoDTO.class);
     }
 
-    public ProdutoDTO save(Long cdLoja, ProdutoDTO dto) throws SQLException {
+    public ProdutoDTO save(Long cdLoja, ProdutoDTO dto) {
         confirmarLoja(cdLoja);
         Produto produto = modelMapper.map(dto, Produto.class); //dto -> model
         produto.setCdProduto(null); //o id vem da sequence, ignora o que chegar no JSON
@@ -57,7 +56,7 @@ public class ProdutoBO {
         return modelMapper.map(produtoDAO.save(produto), ProdutoDTO.class);
     }
 
-    public ProdutoDTO update(Long cdProduto, ProdutoDTO dto) throws SQLException {
+    public ProdutoDTO update(Long cdProduto, ProdutoDTO dto) {
         Produto existente = produtoDAO.findByCodigo(cdProduto);
         if (existente == null) {
             throw new RecursoNaoEncontradoException("Produto " + cdProduto + " não encontrado");
@@ -69,14 +68,14 @@ public class ProdutoBO {
         return modelMapper.map(produto, ProdutoDTO.class);
     }
 
-    public void delete(Long cdProduto) throws SQLException {
+    public void delete(Long cdProduto) {
         if (!produtoDAO.delete(cdProduto)) {
             throw new RecursoNaoEncontradoException("Produto " + cdProduto + " não encontrado");
         }
     }
 
     //regra: o produto so existe dentro de uma loja que existe
-    private void confirmarLoja(Long cdLoja) throws SQLException {
+    private void confirmarLoja(Long cdLoja) {
         if (lojaDAO.findByCodigo(cdLoja) == null) {
             throw new RecursoNaoEncontradoException("Loja " + cdLoja + " não encontrada");
         }
