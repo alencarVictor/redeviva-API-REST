@@ -1,14 +1,14 @@
 package br.com.fiap.redeviva.controller;
 
 import br.com.fiap.redeviva.bo.LojaBO;
+import br.com.fiap.redeviva.bo.ProdutoBO;
 import br.com.fiap.redeviva.dto.LojaDTO;
+import br.com.fiap.redeviva.dto.ProdutoDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -17,9 +17,11 @@ import java.util.List;
 public class LojaController {
 
     private final LojaBO lojaBO;
+    private final ProdutoBO produtoBO;
 
-    public LojaController(LojaBO lojaBO) {
+    public LojaController(LojaBO lojaBO, ProdutoBO produtoBO) {
         this.lojaBO = lojaBO;
+        this.produtoBO = produtoBO;
     }
 
     @GetMapping //requisicao get
@@ -40,9 +42,9 @@ public class LojaController {
     @PostMapping
     public ResponseEntity<?> save(@RequestBody @Valid LojaDTO loja) throws SQLException {
         LojaDTO resultado = lojaBO.save(loja);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{cdLoja}").buildAndExpand(resultado.getCdLoja()).toUri();
-        return ResponseEntity.status(HttpStatus.CREATED).location(location).body(resultado);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .header("Location", "/lojas/" + resultado.getCdLoja())
+                .body(resultado);
         //configurando o retorno com status created 201 e o header Location
     }
 
@@ -59,5 +61,24 @@ public class LojaController {
         LojaDTO resultado = lojaBO.update(cdLoja, loja);
         return ResponseEntity.status(HttpStatus.OK).body(resultado);
         //configurando o retorno com status ok 200
+    }
+
+    //rotas aninhadas do relacionamento 1:N (loja -> produtos)
+
+    @GetMapping("/{cdLoja}/produtos")
+    public ResponseEntity<List<ProdutoDTO>> findProdutos(@PathVariable Long cdLoja) throws SQLException {
+        List<ProdutoDTO> produtos = produtoBO.findByLoja(cdLoja);
+        return ResponseEntity.status(HttpStatus.OK).body(produtos);
+        //configurando o retorno com status ok 200
+    }
+
+    @PostMapping("/{cdLoja}/produtos")
+    public ResponseEntity<?> saveProduto(@PathVariable Long cdLoja,
+                                         @RequestBody @Valid ProdutoDTO produto) throws SQLException {
+        ProdutoDTO resultado = produtoBO.save(cdLoja, produto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .header("Location", "/produtos/" + resultado.getCdProduto())
+                .body(resultado);
+        //configurando o retorno com status created 201 e o header Location
     }
 }
