@@ -45,7 +45,7 @@ redeviva/
 ├── doc/
 │   └── RedeViva-Documentacao.pdf
 ├── sql/
-│   └── redeviva.sql
+│   └── RedeVidaBase.sql
 ├── src/
 │   ├── main/
 │   │   ├── java/br/com/fiap/redeviva/
@@ -119,11 +119,11 @@ As credenciais do Oracle não ficam no código. Configure as variáveis de ambie
 | `DB_USER` | Usuário do banco |
 | `DB_PASSWORD` | Senha do banco |
 
-O script de criação das tabelas e sequences está em [`sql/redeviva.sql`](sql/redeviva.sql). Execute-o no banco antes de iniciar a API.
+O script de criação das tabelas e sequences está em [`sql/RedeVidaBase.sql`](sql/RedeVidaBase.sql). Execute-o no banco antes de iniciar a API.
 
 ## Como rodar
 
-**Pré-requisitos:** Java 21, banco Oracle com o script `sql/redeviva.sql` já executado e as três variáveis de ambiente acima.
+**Pré-requisitos:** Java 21, banco Oracle com o script `sql/RedeVidaBase.sql` já executado e as três variáveis de ambiente acima.
 
 **Localmente (Maven):**
 
