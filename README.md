@@ -1,6 +1,6 @@
 # Rede Viva API
 
-🔗 **Deploy da API:** https://SEU-SERVICO.onrender.com
+🔗 **Deploy da API:** https://redeviva-api-rest.onrender.com
 🔗 **FrontEnd:** https://LINK-DO-FRONT.vercel.app/
 🔗 **Vídeo (YouTube):** https://youtu.be/LINK-DO-VIDEO
 🔗 **GitHub:** https://github.com/alencarVictor/redeviva-API-REST
@@ -211,10 +211,11 @@ Foi usado o **Claude (Anthropic)** como apoio ao desenvolvimento da API: geraç�
 
 ## Equipe
 
-- Gabriella Serni Ponzetta, RM: `______`
-- Julio Cesar Iwata de Oliveira Barros, RM: `______`
-- Rafel Santos Dias, RM: `______`
-- Victor Felipe Silva Alencar, RM: `______`
+- Ana Paula Cunha Brum, RM: `571359`
+- Gabriella Serni Ponzetta, RM: `566296`
+- Julio Cesar Iwata de Oliveira Barros, RM: `573723`
+- Rafel Santos Dias, RM: `574105`
+- Victor Felipe Silva Alencar, RM: `574057`
 
 ## Contato
 
