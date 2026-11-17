@@ -86,8 +86,8 @@ public class GlobalExceptionHandler {
             return erro(HttpStatus.CONFLICT, "Não é possível remover: existem registros que dependem deste"); //filhos
         } else if (e.getCodigo() == 2291) {
             return erro(HttpStatus.BAD_REQUEST, "Registro relacionado não encontrado"); //chave estrangeira
-        } else if (e.getCodigo() == 2290 || e.getCodigo() == 1400) {
-            return erro(HttpStatus.BAD_REQUEST, "Dados inválidos para o banco de dados"); //check ou not null
+        } else if (e.getCodigo() == 2290 || e.getCodigo() == 1400 || e.getCodigo() == 1438) {
+            return erro(HttpStatus.BAD_REQUEST, "Dados inválidos para o banco de dados"); //check, not null ou valor grande demais
         } else {
             return erro(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno ao acessar o banco de dados");
         }
