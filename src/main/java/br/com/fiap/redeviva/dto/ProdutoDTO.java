@@ -14,7 +14,7 @@ public class ProdutoDTO {
     private String nmProduto;
     @NotBlank @Pattern(regexp = "HORTIFRUTI|PADARIA|LATICINIOS|CARNES|FRIOS|MERCEARIA|CONGELADOS")
     private String dsCategoria;
-    @NotNull @Positive
+    @NotNull @Positive @DecimalMax("999.999")
     private BigDecimal nrPesoKg;
 
     //construtores
