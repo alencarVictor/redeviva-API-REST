@@ -187,8 +187,7 @@ O `GlobalExceptionHandler` devolve sempre um JSON padronizado, sem stack trace n
 ```json
 {
   "status": 404,
-  "mensagem": "Loja 99999 não encontrada",
-  "timestamp": "2026-11-17T10:30:00"
+  "mensagem": "Loja 99999 não encontrada"
 }
 ```
 
@@ -204,6 +203,11 @@ O acesso ao banco usa JDBC puro, com a conexão vinda do `DataSource` do Spring.
 ## Testes
 
 Os endpoints foram testados no Insomnia, com uma collection por entidade (sete no total), cobrindo os cenários de sucesso e de erro (400, 404, 405 e 409) de cada rota, primeiro localmente e depois na API publicada no Render. As respostas reais estão na documentação em PDF.
+
+## Limitações e próximos passos
+
+- **Reserva não retirada em 24h:** continua `ATIVA` e mantém o estoque abatido. O prazo bloqueia a retirada, mas o status não muda sozinho, e a reserva vencida ainda aceita alteração de itens. Hoje o estoque só volta se os itens forem apagados.
+- **Próximo passo:** cancelamento de reserva (`CANCELADA`) e expiração automática (`EXPIRADA`), ambos com devolução do estoque à oferta na mesma transação. O banco já aceita esses dois status.
 
 ## Uso de IA generativa
 
