@@ -214,7 +214,7 @@ Foi usado o **Claude (Anthropic)** como apoio ao desenvolvimento da API: gera√ß√
 - Ana Paula Cunha Brum, RM: `571359`
 - Gabriella Serni Ponzetta, RM: `566296`
 - Julio Cesar Iwata de Oliveira Barros, RM: `573723`
-- Rafel Santos Dias, RM: `574105`
+- Rafael Santos Dias, RM: `574105`
 - Victor Felipe Silva Alencar, RM: `574057`
 
 ## Contato

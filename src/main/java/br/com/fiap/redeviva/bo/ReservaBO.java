@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.security.SecureRandom;
 
 @Service
 public class ReservaBO {
@@ -112,7 +112,7 @@ public class ReservaBO {
     //codigo de retirada com 8 caracteres (sem 0, O, 1 e I para nao confundir no balcao)
     private String gerarCodigoRetirada() {
         String caracteres = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-        Random random = new Random();
+        SecureRandom random = new SecureRandom();
         String codigo = "";
         for (int i = 0; i < 8; i++) {
             codigo = codigo + caracteres.charAt(random.nextInt(caracteres.length()));

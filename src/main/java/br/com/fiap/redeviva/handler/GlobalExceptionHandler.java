@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -106,7 +105,6 @@ public class GlobalExceptionHandler {
         Map<String, Object> corpo = new LinkedHashMap<>();
         corpo.put("status", status.value());
         corpo.put("mensagem", mensagem);
-        corpo.put("timestamp", LocalDateTime.now().toString());
         return corpo;
     }
 

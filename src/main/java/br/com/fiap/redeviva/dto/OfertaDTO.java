@@ -1,6 +1,7 @@
 package br.com.fiap.redeviva.dto;
 
-import jakarta.validation.constraints.Future;
+
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -20,7 +21,7 @@ public class OfertaDTO {
     private BigDecimal vlPrecoSistema;
     @NotNull @Positive
     private BigDecimal vlPrecoRede;
-    @NotNull @Future
+    @NotNull @FutureOrPresent
     private LocalDate dtValidade;
     private String stOferta;
 
