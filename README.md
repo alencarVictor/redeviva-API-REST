@@ -1,8 +1,8 @@
 # Rede Viva API
 
 🔗 **Deploy da API:** https://redeviva-api-rest.onrender.com
-🔗 **FrontEnd:** https://LINK-DO-FRONT.vercel.app/
-🔗 **Vídeo (YouTube):** https://youtu.be/LINK-DO-VIDEO
+🔗 **FrontEnd:** https://rede-viva-front.vercel.app/
+🔗 **Vídeo (YouTube):** https://youtu.be/6zO7-8arh8c
 🔗 **GitHub:** https://github.com/alencarVictor/redeviva-API-REST
 
 📄 **Documentação (PDF):** *[doc/RedeViva-Documentacao.pdf]*
